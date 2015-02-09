@@ -271,6 +271,16 @@ void glcd_spi_write(uint8_t c)
 	GLCD_DESELECT();
 }
 
+void glcd_spi_write_noCS(uint8_t c){
+	/*!< Loop while DR register in not emplty */
+	while (SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_TXE) == RESET);
+
+	SPI_I2S_SendData(SPIx, (uint16_t) c);
+
+	/* Wait until entire byte has been read (which we discard anyway) */
+	while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_BSY) != RESET);
+}
+
 void glcd_reset(void)
 {
 	/* Toggle RST low to reset. Minimum pulse 100ns on datasheet. */

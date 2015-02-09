@@ -44,7 +44,7 @@
 #define SPIx                           SPI3
 #define SPIx_CLK                       RCC_APB1Periph_SPI3
 #define SPIx_CLK_INIT                  RCC_APB1PeriphClockCmd
-#define SPIx_PRESCALLER				   SPI_BaudRatePrescaler_8
+#define SPIx_PRESCALLER				   SPI_BaudRatePrescaler_16
 
 #define SPIx_SCK_PIN                   GPIO_Pin_3
 #define SPIx_SCK_GPIO_PORT             GPIOB
@@ -119,6 +119,7 @@
 void glcd_enable_backlight(FunctionalState state);
 #ifdef USE_TIMER_PWM
 void glcd_change_backlight(uint8_t value);
+void glcd_spi_write_noCS(uint8_t c);
 #endif
 #else
 	#error "Controller not supported by STM32F4XX"

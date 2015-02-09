@@ -7,6 +7,8 @@
 #if defined(GLCD_CONTROLLER_ST7565R)
 
 #include "../glcd.h"
+#include "STM32F4.h"
+#include "ST7565R.h"
 
 void glcd_command(uint8_t c)
 {
@@ -64,7 +66,7 @@ void glcd_set_y_address(uint8_t y)
 void glcd_set_x_address(uint8_t x)
 {
 	glcd_set_column_upper(x);
-	glcd_set_column_lower(x);	
+	glcd_set_column_lower(x);
 }
 
 void glcd_all_on(void)
@@ -198,15 +200,74 @@ void glcd_ST7565R_init(void) {
 #elif defined(GLCD_INIT_ZOLEN_12864_FFSSWE_NAA)
 	/* Init sequence for Zolen 128x64 module with
 	 * size 40x35mm. Chip ST7567 */
-
+#if 1
+	delay_ms(5);
 	glcd_command(0xa0); /* ADC select in normal mode */
+	glcd_command(0x40);
 	glcd_command(0xae); /* Display OFF */
-	glcd_command(0xc8); /* Common output mode select: reverse direction (last 3 bits are ignored) */
-	glcd_command(0xa3); /* LCD bias set at 1/9 */
+	glcd_command(0xc0); /* Common output mode select: reverse direction (last 3 bits are ignored) */
 	glcd_command(0x2f); /* Power control set to operating mode: 7 */
+	delay_ms(300);
+	glcd_command(0xa3); /* LCD bias set at 1/9 */
 	glcd_command(0x24); /* Internal resistor ratio, set to: 6 */
 	glcd_set_contrast(20); /* Set contrast, value experimentally determined, value 0 to 63 */
 	glcd_command(0xaf); /* Display on */
+	glcd_command(0xa5);
+	delay_ms(500);
+	glcd_command(0xa4);
+
+#endif
+#if 0
+	delay_ms(5);
+	glcd_command(0xe2);
+	glcd_command(0x2c);
+	glcd_command(0x2e);
+	glcd_command(0x2f);
+	glcd_command(0xa3);
+	glcd_command(0x24);
+	glcd_set_contrast(20);
+
+	glcd_command(0xc8);
+	glcd_command(0xa0);
+	glcd_command(0xaf);
+
+	glcd_command(0xa5);
+	delay_ms(500);
+	glcd_command(0xa4);
+#endif
+#if 0
+	GLCD_DESELECT();
+	GLCD_A0_LOW();
+	GLCD_RESET_LOW();
+	delay_ms(100);
+	GLCD_RESET_HIGH();
+	delay_ms(5);
+	GLCD_SELECT();
+	glcd_spi_write_noCS(0xe2);
+	delay_ms(5);
+	glcd_spi_write_noCS(0x40);
+	glcd_spi_write_noCS(0xa0);
+	glcd_spi_write_noCS(0xc8);
+	glcd_spi_write_noCS(0xa6);
+	glcd_spi_write_noCS(0xa2);
+	glcd_spi_write_noCS(0x2f);
+	glcd_spi_write_noCS(0xe2);
+	glcd_spi_write_noCS(0xf8);
+	glcd_spi_write_noCS(0x00);
+	glcd_spi_write_noCS(0x23);
+	glcd_spi_write_noCS(0x81);
+	glcd_spi_write_noCS(0x27);
+	glcd_spi_write_noCS(0xac);
+	glcd_spi_write_noCS(0x00);
+	glcd_spi_write_noCS(0xaf);
+	delay_ms(100);
+	glcd_spi_write_noCS(0xa5);
+	delay_ms(100);
+	glcd_spi_write_noCS(0xa4);
+	GLCD_DESELECT();
+#endif
+
+
 
 #else
 
