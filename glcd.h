@@ -203,7 +203,7 @@ typedef struct {
 
 #if !defined(GLCD_RESET_TIME)
 	/** Reset duration by glcd_reset(), in milliseconds */
-	#define GLCD_RESET_TIME 1
+	#define GLCD_RESET_TIME 2
 #endif
 
 /* Global variables used for GLCD library */
