@@ -119,6 +119,8 @@
 void glcd_enable_backlight(FunctionalState state);
 #ifdef USE_TIMER_PWM
 void glcd_change_backlight(uint8_t value);
+void glcd_turnOff(void);
+void glcd_turnOn(void);
 #endif
 #else
 	#error "Controller not supported by STM32F4XX"

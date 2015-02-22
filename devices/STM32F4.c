@@ -284,6 +284,23 @@ void glcd_reset(void)
 	//GLCD_DESELECT();
 	delay_ms(10);
 }
+/*
+ * Turn of the LCD by pulling high the Reset pin.
+ */
+void glcd_turnOff(void){
+	GLCD_RESET_LOW();
+	glcd_enable_backlight(DISABLE);
+}
+/*
+ * Turn on LCD.
+ */
+void glcd_turnOn(void){
+	GLCD_RESET_HIGH();
+	delay_ms(10);
+	glcd_ST7565R_init();
+	glcd_enable_backlight(ENABLE);
+}
+
 
 void delay_ms(uint32_t ms){
 

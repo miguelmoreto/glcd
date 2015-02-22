@@ -199,7 +199,7 @@ void glcd_ST7565R_init(void) {
 #elif defined(GLCD_INIT_ZOLEN_12864_FFSSWE_NAA)
 	/* Init sequence for Zolen 128x64 module with
 	 * size 40x35mm. Chip ST7567 */
-#if 0
+
 	glcd_command(0xa0); /* ADC select in normal mode */
 	glcd_command(0xae); /* Display OFF */
 	glcd_command(0xc8); /* Common output mode select: reverse direction (last 3 bits are ignored) */
@@ -208,39 +208,18 @@ void glcd_ST7565R_init(void) {
 	glcd_command(0x24); /* Internal resistor ratio, set to: 6 */
 	glcd_set_contrast(20); /* Set contrast, value experimentally determined, value 0 to 63 */
 	glcd_command(0xaf); /* Display on */
-#endif
-	glcd_command(0xe2);
-	//glcd_command(0x40);
+
+
+#elif defined(GLCD_INIT_S66019_12864)
 
 	glcd_command(0xa0);
 	glcd_command(0xc8);
-	glcd_command(0xa6);
 	glcd_command(0xa2);
 	glcd_command(0x2f);
 	glcd_command(0xf8);
 	glcd_command(0x00);
-	glcd_command(0x23);
-	glcd_command(0xac);
-	glcd_command(0x00);
+	glcd_command(0x24);
 	glcd_command(0xaf);
-
-
-	delay_ms(100);
-	//glcd_command(0xa5);
-	//delay_ms(200);
-	glcd_command(0xa4);
-
-	//glcd_command(0xe2);
-	//glcd_command(0x2c);
-	//glcd_command(0x2e);
-
-
-	glcd_set_contrast(27);
-
-
-
-
-
 
 #else
 
