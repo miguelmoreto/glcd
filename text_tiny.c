@@ -95,6 +95,24 @@ void glcd_tiny_draw_string(uint8_t x, uint8_t line, char *str)
 	}
 }
 
+/* added by Moreto */
+void glcd_tiny_draw_string_xy(uint8_t x, uint8_t y, char *str)
+{
+	if (font_current.height >= 8) {
+		return;
+	}
+	while (*str) {
+		glcd_tiny_draw_char_xy(x, y, *str++);
+		x += (font_current.width + 1);
+		if ((x + font_current.width + 1) > GLCD_LCD_WIDTH) {
+			x = 0; /* Ran out of this line */
+			y = y + font_current.height + 1;
+		}
+		if (y >= (GLCD_LCD_HEIGHT - font_current.height))
+			return; /* Ran out of space :( */
+	}
+}
+
 #if defined(GLCD_DEVICE_AVR8)
 void glcd_tiny_draw_string_P(uint8_t x, uint8_t line, PGM_P str)
 #else
@@ -123,6 +141,37 @@ void glcd_tiny_draw_string_P(uint8_t x, uint8_t line, const char *str)
 		if (line >= (GLCD_LCD_HEIGHT/(font_current.height + 1)))
 			return; /* Ran out of space :( */
 	}	
+}
+
+/* added by Moreto */
+#if defined(GLCD_DEVICE_AVR8)
+void glcd_tiny_draw_string_xy_P(uint8_t x, uint8_t y, PGM_P str)
+#else
+void glcd_tiny_draw_string_xy_P(uint8_t x, uint8_t y, const char *str)
+#endif
+{
+	if (font_current.height >= 8) {
+		return;
+	}
+	while (1) {
+#if defined(GLCD_DEVICE_AVR8)
+		char c = pgm_read_byte(str++);
+#else
+		char c = *(str++);
+#endif
+		if (!c)
+			return;
+
+		glcd_tiny_draw_char_xy(x, y, c);
+
+		x += (font_current.width + 1);
+		if ((x + font_current.width + 1) > GLCD_LCD_WIDTH) {
+			x = 0; /* Ran out of this line */
+			y = y + font_current.height + 1;
+		}
+		if (y >= (GLCD_LCD_HEIGHT - font_current.height))
+			return; /* Ran out of space :( */
+	}
 }
 
 void glcd_tiny_draw_string_ammend(char *str) {
